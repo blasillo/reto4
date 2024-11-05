@@ -1,0 +1,9 @@
+ifconfig eth0 192.168.4.20 netmask 255.255.255.0 up
+route add default gw 192.168.4.1 dev eth0
+
+# Hacky way to make mariadb network acessible, do not use this in production
+#
+sed -i 's/127.0.0.1/192.168.4.20/g' /etc/mysql/mariadb.conf.d/50-server.cnf
+
+/etc/init.d/mysql start
+source /scripts/populate_db.sh
